@@ -1,20 +1,21 @@
 ---
-name: personalized-opener-writer
+name: acc-lvl-personalized-opener-writer
 description: >
-  Interactive skill for writing tight 1-2 sentence personalized cold email openers from a
-  research column or signal data. Interviews the user first about the product/service being
-  sold, the target industry, today's date, banned words for the campaign, and the email body
-  the opener bridges into — then generates research-anchored, timeline-aware, single-event
-  openers that pass a strict audit (no em dashes, no flattery, no banned terms, empathy
-  phrase required, 25-35 words). Use whenever the user wants to "write personalized snippets",
-  "personalize this list", "write opener lines from research", has a CSV with a research/signals
-  column and wants per-lead opener copy, or wants to generate the personalized first line that
-  bridges into a cold email body. Trigger on phrases like "write me personalized openers",
-  "personalize this CSV", "write the first line for these accounts", "turn this research into
-  snippets", "personalize the opener for these companies".
+  Account-level interactive skill for writing tight 1-2 sentence personalized cold email
+  openers from a research column or signal data tied to specific target companies/accounts.
+  Interviews the user first about the product/service being sold, the target industry, today's
+  date, banned words for the campaign, and the email body the opener bridges into — then
+  generates research-anchored, timeline-aware, single-event openers that pass a strict audit
+  (no em dashes, no flattery, no banned terms, empathy phrase required, 25-35 words). Use
+  whenever the user wants to "write personalized snippets", "personalize this list", "write
+  opener lines from research", has a CSV with a research/signals column and wants per-account
+  opener copy, or wants to generate the personalized first line that bridges into a cold email
+  body. Trigger on phrases like "write me personalized openers", "personalize this CSV",
+  "write the first line for these accounts", "turn this research into snippets", "personalize
+  the opener for these companies", "account-level personalization".
 ---
 
-# Personalized Opener Writer
+# Account-Level Personalized Opener Writer
 
 Writes tight, peer-to-peer cold email opener lines that bridge into the email body. Each output is the personalized first 1-2 sentences a sender drops in front of a templated email — research-anchored, single-event, timeline-aware, ~25-35 words.
 
