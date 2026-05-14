@@ -2,13 +2,13 @@
 
 Open-source [Claude Code skills](https://docs.anthropic.com/en/docs/claude-code/skills) for cold email infrastructure, lead sourcing, copywriting, and operations. Built by [GrowthEngineX](https://growthengine-x.com) from patterns across 1,000+ real B2B campaigns.
 
-28 skills that work together. Clone the repo, bring your API keys, point Claude Code at it, go from zero to a running campaign.
+29 skills that work together. Clone the repo, bring your API keys, point Claude Code at it, go from zero to a running campaign.
 
 **New here?** Invoke `/cold-email-kickoff` — it's the guided entry point that orchestrates ICP + lead magnet + strategy + plan in one flow.
 
 ## What's in here
 
-29 skills organized in 5 tracks.
+30 skills organized in 6 tracks.
 
 **New to cold email? Start with `/cold-email-kickoff`.** It orchestrates ICP → lead magnet → campaign strategy → plan in one guided flow.
 
@@ -49,6 +49,9 @@ Open-source [Claude Code skills](https://docs.anthropic.com/en/docs/claude-code/
 - **`personalization-subagent-pattern`** — reusable pattern for per-lead Claude sub-agent personalization
 - **`deliverability-test-public`** — compare reply/bounce by inbox type
 - **`cold-email-weekly-rhythm`** — Monday/Wednesday/Friday operational playbook — what separates hobbyist from top-1%
+
+### Track 6 — ABM & Report Personalization
+- **`account-research`** — research accounts from a CSV, write 4-paragraph personalized report prefaces, and write results back to the same CSV. Campaign-aware: reads hero report + value prop from a `campaigns/[client-name]/` folder, classifies all rows (Complete / Group A / Group B / Group C), researches with Exa, maps tension, drafts prefaces, and runs a Python quality audit before finishing. Works for any client, any report asset.
 
 ## Getting started
 
