@@ -35,12 +35,68 @@ EXA_URL = "https://api.exa.ai/contents"
 EXA_BATCH = 10           # URLs per Exa call
 EXA_SLEEP = 0.4          # seconds between calls
 EXA_TIMEOUT = 45
-MAX_CHARS = 4000         # text chars kept per site (enough to judge services)
-HIGHLIGHT_QUERY = (
+MAX_CHARS = 4000         # text chars kept per site (enough to judge the criteria)
+CRITERIA_PATH = os.path.join(HERE, ".tmp", "criteria.json")
+
+# ── Validation criteria (generic) ────────────────────────────────────────────
+# What counts as a "Yes" is NOT hardcoded. It is read from .tmp/criteria.json,
+# which Claude writes after interviewing the user (target + keywords + Exa query
+# + output column names). Falls back to an SEO/GEO default so the tool still runs
+# stand-alone. See SKILL.md for the intake flow and criteria.json schema.
+DEFAULT_QUERY = (
     "SEO référencement naturel payant GEO SEA SEM Google Ads search engine "
     "optimization marketing acquisition de trafic netlinking link building "
     "answer engine optimization AEO local SEO"
 )
+DEFAULT_KW = [
+    ("référencement naturel", "Référencement naturel"),
+    ("référencement payant", "Référencement payant"),
+    ("référencement", "Référencement"),
+    ("generative engine optim", "GEO"),
+    ("answer engine optim", "AEO"),
+    ("search engine optim", "SEO"),
+    ("google ads", "Google Ads"),
+    ("netlinking", "Netlinking"),
+    ("link building", "Link building"),
+    ("acquisition de trafic", "Acquisition de trafic"),
+    (" seo", "SEO"),
+    (" sea", "SEA"),
+    (" geo", "GEO"),
+]
+DEFAULT_PATHS = ["/services", "/prestations", "/referencement", "/seo", "/expertises"]
+
+
+def load_criteria():
+    """Read .tmp/criteria.json → normalized criteria dict. SEO/GEO defaults if absent."""
+    target = ""
+    raw_kw, query, paths = None, None, None
+    if os.path.exists(CRITERIA_PATH):
+        c = json.load(open(CRITERIA_PATH, encoding="utf-8"))
+        target = c.get("target", "")
+        raw_kw = c.get("keywords")
+        query = c.get("highlight_query")
+        paths = c.get("service_paths")
+    kw = []
+    for item in (raw_kw or []):
+        # accept "needle" or ["needle", "Label"]
+        if isinstance(item, str):
+            kw.append((item.lower(), item))
+        elif isinstance(item, (list, tuple)) and item:
+            needle = item[0]
+            label = item[1] if len(item) > 1 else item[0]
+            kw.append((needle.lower(), label))
+    return {
+        "target": target,
+        "kw": kw or DEFAULT_KW,
+        "query": query or DEFAULT_QUERY,
+        "paths": paths or DEFAULT_PATHS,
+    }
+
+
+_CRIT = load_criteria()
+KW = _CRIT["kw"]
+HIGHLIGHT_QUERY = _CRIT["query"]
+SERVICE_PATHS = _CRIT["paths"]
 
 
 def load_key():
@@ -121,31 +177,8 @@ def exa_contents(key, urls):
 
 
 # ── deterministic keyword classify (zero LLM tokens) ─────────────────────────
-KW = [
-    ("référencement naturel", "Référencement naturel"),
-    ("référencement payant", "Référencement payant"),
-    ("référencement local", "Référencement local"),
-    ("référencement", "Référencement"),
-    ("generative engine optim", "GEO"),
-    ("answer engine optim", "AEO"),
-    ("search engine optim", "SEO"),
-    ("search engine marketing", "SEM"),
-    ("search marketing", "Search marketing"),
-    ("google ads", "Google Ads"),
-    ("google adwords", "Google Adwords"),
-    ("adwords", "Adwords"),
-    ("netlinking", "Netlinking"),
-    ("link building", "Link building"),
-    ("acquisition de trafic", "Acquisition de trafic"),
-    ("positionnement", "Positionnement moteurs"),
-    (" seo", "SEO"),
-    ("seo ", "SEO"),
-    (" sea", "SEA"),
-    (" sem ", "SEM"),
-    (" smo", "SMO"),
-    (" geo", "GEO"),
-    (" aeo", "AEO"),
-]
+# KW / HIGHLIGHT_QUERY / SERVICE_PATHS are loaded from .tmp/criteria.json near the
+# top of this file (see load_criteria). Nothing about the target is hardcoded here.
 
 
 def cmd_classify_kw():
@@ -208,7 +241,7 @@ PARKED_MARKERS = [
     "default web site page", "domain for sale", "achetez ce domaine",
     "ce domaine est à vendre", "parking",
 ]
-SERVICE_PATHS = ["/services", "/prestations", "/referencement", "/seo", "/expertises"]
+# SERVICE_PATHS is loaded from criteria.json near the top of this file.
 
 
 def cmd_multipage_no():

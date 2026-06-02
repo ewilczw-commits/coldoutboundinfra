@@ -31,8 +31,27 @@ DEFAULT_OUT = os.path.join(HERE, "companies - RESULTS.csv")
 BATCH_DIR = os.path.join(HERE, ".tmp", "seo_batches")
 RESULT_DIR = os.path.join(HERE, ".tmp", "seo_results")
 BATCH_SIZE = 8
+CRITERIA_PATH = os.path.join(HERE, ".tmp", "criteria.json")
 
-OUT_COLS = ["Company Name", "Website", "SEO Services Found", "Services Identified"]
+# Output column headers are criteria-driven so the result reads naturally for ANY
+# validation target (not just SEO). Claude writes these into criteria.json during
+# intake; sensible generic defaults are used if absent.
+DEFAULT_MATCH_COL = "Match Found"
+DEFAULT_DETAIL_COL = "Details"
+
+
+def out_columns():
+    match_col, detail_col = DEFAULT_MATCH_COL, DEFAULT_DETAIL_COL
+    if os.path.exists(CRITERIA_PATH):
+        c = json.load(open(CRITERIA_PATH, encoding="utf-8"))
+        match_col = c.get("match_column") or match_col
+        detail_col = c.get("detail_column") or detail_col
+    return ["Company Name", "Website", match_col, detail_col]
+
+
+# Candidate header names for auto-detection (case-insensitive).
+NAME_HEADERS = ["company name", "company", "name", "organization", "account", "entreprise"]
+SITE_HEADERS = ["website", "site", "domain", "url", "web", "site web", "homepage"]
 
 
 # ── Helpers ──────────────────────────────────────────────────────────────────
@@ -46,17 +65,36 @@ def normalize_url(raw):
     return u
 
 
+def _pick_header(fieldnames, candidates):
+    """Find the first CSV header matching a candidate (case-insensitive, substring)."""
+    lower = {(fn or "").strip().lower(): fn for fn in (fieldnames or [])}
+    for cand in candidates:
+        if cand in lower:
+            return lower[cand]
+    for cand in candidates:           # substring fallback ("Company Website" → site)
+        for low, orig in lower.items():
+            if cand in low:
+                return orig
+    return None
+
+
 def read_rows(in_path):
-    """Read input CSV → list of dicts with a stable row_id (0-based, in file order)."""
+    """Read input CSV → list of dicts with a stable row_id (0-based, in file order).
+    Auto-detects the company-name and website columns so any CSV layout works."""
     with open(in_path, newline="", encoding="utf-8-sig") as f:
         reader = csv.DictReader(f)
+        name_col = _pick_header(reader.fieldnames, NAME_HEADERS)
+        site_col = _pick_header(reader.fieldnames, SITE_HEADERS)
+        if not site_col:
+            raise SystemExit(f"No website/domain column found in {in_path}. "
+                             f"Headers seen: {reader.fieldnames}")
         rows = []
         for i, r in enumerate(reader):
             rows.append({
                 "row_id": i,
-                "company_name": (r.get("Company Name") or "").strip(),
-                "website_raw": (r.get("Website") or "").strip(),
-                "website": normalize_url(r.get("Website")),
+                "company_name": (r.get(name_col) or "").strip() if name_col else "",
+                "website_raw": (r.get(site_col) or "").strip(),
+                "website": normalize_url(r.get(site_col)),
             })
     return rows
 
@@ -105,9 +143,11 @@ def load_results():
 def cmd_merge(args):
     rows = read_rows(args.in_path)
     results = load_results()
+    cols = out_columns()
+    match_col, detail_col = cols[2], cols[3]
     written = filled = 0
     with open(args.out_path, "w", newline="", encoding="utf-8") as f:
-        w = csv.DictWriter(f, fieldnames=OUT_COLS)
+        w = csv.DictWriter(f, fieldnames=cols)
         w.writeheader()
         for r in rows:
             res = results.get(r["row_id"])
@@ -118,8 +158,8 @@ def cmd_merge(args):
             w.writerow({
                 "Company Name": r["company_name"],
                 "Website": r["website_raw"],
-                "SEO Services Found": found,
-                "Services Identified": services,
+                match_col: found,
+                detail_col: services,
             })
             written += 1
     missing = written - filled
