@@ -36,6 +36,7 @@ Open-source [Claude Code skills](https://docs.anthropic.com/en/docs/claude-code/
 - **`competitor-engagers`** — find people engaging with competitor LinkedIn posts
 - **`icp-prompt-builder`** — required qualification step invoked by every list-building skill
 - **`list-quality-scorecard`** — grade a lead CSV across 8 dimensions before uploading
+- **`amazon-brand-store-finder`** — confirm a company runs its own Amazon brand storefront (not just reseller listings) and return the store URL — deterministic, no LLM, no paid search API
 
 ### Track 4 — Copy & Send
 - **`cold-email-starter-kit`** — the 14-step end-to-end tutorial (alternative to `/cold-email-kickoff`)
