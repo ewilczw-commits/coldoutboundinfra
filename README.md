@@ -1,6 +1,6 @@
 # Cold Outbound Skills
 
-Open-source [Claude Code skills](https://docs.anthropic.com/en/docs/claude-code/skills) for cold email infrastructure, lead sourcing, copywriting, and operations — refined from patterns across 1,000+ real B2B campaigns.
+Open-source [Claude Code skills](https://docs.anthropic.com/en/docs/claude-code/skills) for cold email infrastructure, lead sourcing, copywriting, and operations.
 
 37 skills that work together. Clone the repo, bring your API keys, point Claude Code at it, go from zero to a running campaign.
 
@@ -199,19 +199,6 @@ First campaign (2,000 leads, 20 domains, 40 inboxes):
 - **Month 1 total: ~$360 (confirm domain/inbox cost against ScaledMail's calculator). Recurring: ~$130/mo.**
 
 See `skills/cold-email-starter-kit/references/00-getting-started.md` for the original full breakdown (still accurate for that tutorial's legacy Dynadot+Zapmail flow).
-
-## A note on ethics
-
-Cold email is legal when done right, but it's a privilege. Don't spam. Don't email consumers. Honor unsubscribes instantly. Include a real physical address. Be the kind of sender you'd want to receive email from.
-
-The best cold emails are the ones the recipient is glad they got.
-
-## Contributing
-
-This repo is a collection of patterns refined over thousands of real campaigns. Improvements welcome — PRs should include:
-- Real-world test results (not theoretical changes)
-- Generalizable insight (not hyper-specific to one industry)
-- Keep beginner-friendliness as the north star
 
 ## License
 
