@@ -7,7 +7,7 @@
  *   npx tsx scripts/check-domain-auth.ts --domains=a.co,b.co --out=/tmp/audit/auth.csv
  *
  * CSV input must have a column named `domain` or `email` (domain extracted from email).
- * DKIM selector defaults to "default" (Zapmail convention). Override with --dkim-selector=XYZ.
+ * DKIM selector defaults to "default" (common convention, incl. ScaledMail). Override with --dkim-selector=XYZ.
  */
 
 import { execSync } from "child_process";

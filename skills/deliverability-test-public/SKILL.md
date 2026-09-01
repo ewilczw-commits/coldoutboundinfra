@@ -12,7 +12,7 @@ Compare reply rates, bounce rates, and positive reply rates broken down by inbox
 Different inbox types have different deliverability characteristics:
 - **Gmail / G Suite** — highest trust, fewest bounces, often best reply rates
 - **Office365** — good reputation, but stricter spam filtering
-- **SMTP** (Zapmail, Maildoso, Mailforge, custom) — varies wildly by provider, often has higher bounces in the first 30 days of domain life
+- **SMTP** (ScaledMail, Maildoso, Mailforge, custom) — varies wildly by provider, often has higher bounces in the first 30 days of domain life
 
 If your campaigns mix inbox types, this skill shows which type is earning its keep.
 
@@ -70,7 +70,7 @@ Takeaways:
 
 ## What to do next
 
-**If one inbox type is underperforming:** `/smartlead-inbox-manager` to retire the bad ones (tag `retired`, disable warmup). If replacements are needed, `/zapmail-domain-setup-public` to provision new domains on a different provider type.
+**If one inbox type is underperforming:** `/smartlead-inbox-manager` to retire the bad ones (tag `retired`, disable warmup). If replacements are needed, `/scaledmail-domain-setup-public` to provision new domains on a different provider type.
 
 **If all types are healthy:** back to the weekly rhythm via `/cold-email-weekly-rhythm`.
 

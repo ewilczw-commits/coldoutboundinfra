@@ -125,7 +125,7 @@ npx tsx scripts/tag-inboxes.ts --ids=A,B,C --add-tag=active --remove-tag=insuran
 npx tsx scripts/set-warmup.ts --mode=disable --ids=A,B,C
 ```
 
-**If insurance pool is getting thin (<5 inboxes available to rotate in):** kick off a new domain purchase cycle via `/zapmail-domain-setup-public`. It takes ~2 weeks from purchase to sendable, so you need to start early.
+**If insurance pool is getting thin (<5 inboxes available to rotate in):** kick off a new domain purchase cycle via `/scaledmail-domain-setup-public`. It takes ~2 weeks from purchase to sendable, so you need to start early.
 
 ---
 
@@ -197,4 +197,4 @@ This skill IS the loop. Your next action is the next calendar event on your list
 - `/smartlead-inbox-manager` — the biweekly inbox rotation
 - `/deliverability-incident-response` — when the Monday audit flags something
 - `/experiment-design` — the quarterly retrospective feeds into this
-- `/zapmail-domain-setup-public` — when insurance pool runs low
+- `/scaledmail-domain-setup-public` — when insurance pool runs low

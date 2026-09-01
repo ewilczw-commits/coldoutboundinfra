@@ -408,7 +408,7 @@ This is the handoff document for `/campaign-copywriting`. The copywriter skill r
 
 Don't try to write copy for all 20 campaigns at once. Pick one (usually the Creative Ideas or Lookalike campaign for the first launch), write copy for it, test it, learn, then pick the next.
 
-**Or wait:** if you don't have inboxes + list yet, pause here. Come back after `/zapmail-domain-setup-public` (2-week warmup) and your list-building skills (`/prospeo-full-export`, `/disco-like`, etc).
+**Or wait:** if you don't have inboxes + list yet, pause here. Come back after `/scaledmail-domain-setup-public` (2-week warmup) and your list-building skills (`/prospeo-full-export`, `/disco-like`, etc).
 
 ## Related skills
 

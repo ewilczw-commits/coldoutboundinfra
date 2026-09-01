@@ -13,7 +13,7 @@ One-page map from business-stage to skill. Find where you are, read the "invoke"
     ↓
 /campaign-strategy                   ← 15-20 campaign angles + value props
     ↓
-/zapmail-domain-setup-public         ← (if no infra) — 2-week warmup wait
+/scaledmail-domain-setup-public         ← (if no infra) — 2-week warmup wait
 /smartlead-inbox-manager             ← configure warmup/signatures/tags
     ↓
 /prospeo-full-export | /disco-like | /google-maps-list-builder | /blitz-list-builder | /competitor-engagers
@@ -48,7 +48,7 @@ Ongoing: /cold-email-weekly-rhythm
 | "I need to write the email copy" | `/campaign-copywriting` | Stepwise direction → subject → body → final YAML |
 | "Draft copy, want to QA before launch" | `/spam-word-checker` | Banned-word scan (copy QA) |
 | "Copy ready, need spintax variations" | `/smartlead-spintax` | Smartlead-compatible spin |
-| "I need domains to send from" | `/zapmail-domain-setup-public` | Dynadot → Zapmail end-to-end, `.com`/`.co` defaults |
+| "I need domains to send from" | `/scaledmail-domain-setup-public` | ScaledMail end-to-end, `.com`/`.co` defaults |
 | "Inboxes exist but aren't configured" | `/smartlead-inbox-manager` | Warmup, signatures (name/title/company/address), tags |
 | "I need a list of leads (title-first)" | `/prospeo-full-export` | Paginated search → CSV. Required: `/icp-prompt-builder` on 50-sample first. |
 | "I have target domains, need people" | `/blitz-list-builder` | Domain → contacts. Required: `/icp-prompt-builder`. |
@@ -69,7 +69,7 @@ Ongoing: /cold-email-weekly-rhythm
 
 1. `/cold-email-kickoff` → orchestrates: ICP → lead magnet → strategy → campaign plan
 2. Follow the kickoff's recommended next skill:
-   - **No infra:** `/zapmail-domain-setup-public` → `/smartlead-inbox-manager` → **wait 2 weeks for warmup**
+   - **No infra:** `/scaledmail-domain-setup-public` → `/smartlead-inbox-manager` → **wait 2 weeks for warmup**
    - **Infra ready:** jump straight to list building
 3. Pick your list source (Prospeo, DiscoLike, Google Maps, Blitz, Competitor-Engagers) — each invokes `/icp-prompt-builder` as a required step
 4. `/list-quality-scorecard` — grade the filtered list

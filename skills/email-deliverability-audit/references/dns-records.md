@@ -17,7 +17,7 @@ v=spf1 include:<provider> ~all
 
 | Provider | SPF value |
 |---|---|
-| Zapmail | `v=spf1 include:_spf.zapmail.com ~all` |
+| ScaledMail | auto-published on connect — read the exact `include:` host back from `dig TXT` after connecting rather than assuming a fixed string |
 | Google Workspace | `v=spf1 include:_spf.google.com ~all` |
 | Microsoft 365 | `v=spf1 include:spf.protection.outlook.com ~all` |
 | SendGrid | `v=spf1 include:sendgrid.net ~all` |
@@ -39,17 +39,18 @@ dig TXT example.com +short | grep spf1
 Cryptographic signature that proves the email wasn't modified in transit.
 
 **Record type:** TXT
-**Host:** `<selector>._domainkey` (e.g. `default._domainkey` for Zapmail, `google._domainkey` for Workspace)
+**Host:** `<selector>._domainkey` (e.g. `default._domainkey` is the common convention for white-glove providers like ScaledMail, `google._domainkey` for Workspace — confirm the actual selector your provider published rather than assuming)
 **Value:** Long public key provided by your sending provider. Looks like:
 ```
 v=DKIM1; k=rsa; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC...
 ```
 
-### Zapmail default selector
-Zapmail publishes DKIM at the `default` selector. Check with:
+### Common "default" selector
+Many white-glove providers (ScaledMail included) publish DKIM at the `default` selector. Check with:
 ```bash
 dig TXT default._domainkey.example.com +short
 ```
+If that returns nothing, check your provider's dashboard for the actual selector name before concluding DKIM is missing.
 
 ### Workspace selector
 `google._domainkey.example.com`
@@ -98,7 +99,7 @@ dig TXT _dmarc.example.com +short
 
 ## Checklist for a new domain
 
-1. **Day 0 — registration:** point nameservers to your sending provider (e.g., Zapmail)
+1. **Day 0 — registration:** point nameservers to your sending provider (e.g., ScaledMail)
 2. **Day 0-1 — DNS propagation:** wait 20 min - 48h for records to appear
 3. **Day 1 — verify all three:**
    ```bash
@@ -120,11 +121,11 @@ dig TXT _dmarc.example.com +short
 | Emails landing in spam despite all 3 passing | Domain reputation issue — content/behavior, not auth |
 | Brand-new domain, all auth fails | DNS propagation still in progress, wait 48h |
 
-## How Zapmail handles this
+## How ScaledMail handles this
 
-Zapmail's onboarding flow typically publishes SPF, DKIM, and DMARC (`p=none`) automatically when you connect a domain to them. If any are missing:
-- Re-run Zapmail's "verify domain" wizard
-- Check the nameservers actually point to Zapmail
-- Wait longer for DNS propagation
+ScaledMail's order flow publishes SPF, DKIM, and DMARC (`p=none`) automatically when a domain is purchased/connected through them — see `/scaledmail-domain-setup-public`. If any are missing:
+- Check the domain's status via the **Get Domains** endpoint (or dashboard) — DNS may still be propagating
+- Confirm the domain was actually purchased/connected through ScaledMail rather than pointed there manually
+- Wait longer for DNS propagation before concluding something's broken
 
-If you need more control, switch to "custom DNS" mode in Zapmail and publish records manually at your registrar.
+If you need more control, ask ScaledMail support about a "custom DNS" or manual-records option, or publish records yourself at your registrar.

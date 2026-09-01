@@ -44,7 +44,7 @@ Are ALL campaigns dropping, or just one?
    - If inbox placement >85% → deliverability is fine, look at copy/targeting instead
 
 2. **Check domain authentication** (`/email-deliverability-audit` → `check-domain-auth.ts`)
-   - Missing DKIM on any domain → fix immediately (see `/zapmail-domain-setup-public` for reconnect steps)
+   - Missing DKIM on any domain → fix immediately (see `/scaledmail-domain-setup-public` for reconnect steps)
    - DMARC policy=reject with alignment failures → temporarily lower to quarantine
 
 3. **Check warmup status** (`/smartlead-inbox-manager` → `list-health.ts`)
@@ -108,14 +108,14 @@ Check:
 ### Step 2: What tier of blacklist?
 
 - **Domain on Spamhaus DBL or SURBL** → serious. You may need to replace the domain entirely.
-- **Sending IP on a DNSBL** → usually the IP pool's fault (not yours, if on Zapmail shared IPs). Zapmail rotates IPs; wait 1-2 weeks.
+- **Sending IP on a DNSBL** → usually the IP pool's fault (not yours, if on ScaledMail's shared IPs). Providers on shared pools rotate IPs periodically; wait 1-2 weeks.
 - **Minor list (e.g., Barracuda)** → submit delisting request at their portal. Usually resolved in 3-7 days.
 
 ### Step 3: Replace vs repair
 
 - **Domain <30 days old + blacklisted** → replace. Not worth the cleanup effort.
 - **Domain >90 days old + blacklisted** → try repair. Stop sending for 7 days, submit delisting requests, slowly resume.
-- **If you replace:** archive the old domain, buy a new lookalike via `/zapmail-domain-setup-public`, warm it for 2 weeks before reusing.
+- **If you replace:** archive the old domain, buy a new lookalike via `/scaledmail-domain-setup-public`, warm it for 2 weeks before reusing.
 
 ## Decision tree: "inbox blocked in warmup"
 
@@ -144,7 +144,7 @@ npx tsx scripts/tag-inboxes.ts --ids=<id> --add-tag=retired --remove-tag=active
 npx tsx scripts/set-warmup.ts --mode=disable --ids=<id>
 
 # Replace — buy new domain, create new inbox
-# See /zapmail-domain-setup-public
+# See /scaledmail-domain-setup-public
 ```
 
 ## Decision tree: "Gmail marking as promotional"
@@ -178,7 +178,7 @@ If NOTHING is working and you don't know why:
 2. **Audit:** run `/email-deliverability-audit` full suite
 3. **Spam test:** run Smart Delivery on 2 sender subsets
 4. **Check SPF/DKIM/DMARC on every domain** — if ANY are missing, fix before resuming
-5. **Check Zapmail health dashboard** — if their IPs are in trouble, everyone on their pool is too
+5. **Check your ScaledMail (or other provider) health dashboard** — if their IPs are in trouble, everyone on their pool is too
 6. **Reduce volume 75%** for the restart
 7. **Use a known-good copy** — don't launch new copy during recovery
 8. **Watch reply rate daily** for 7 days post-restart
@@ -201,7 +201,7 @@ Meanwhile: continue the weekly rhythm via `/cold-email-weekly-rhythm`, which cat
 
 - `/email-deliverability-audit` — the diagnostic suite you run first
 - `/smartlead-inbox-manager` — tag, rotate, retire inboxes
-- `/zapmail-domain-setup-public` — replace a burned domain
+- `/scaledmail-domain-setup-public` — replace a burned domain
 - `/positive-reply-scoring` — confirm recovery (reply rate back to baseline)
 
 ## The 1% rule sanity check

@@ -1,11 +1,11 @@
 ---
 name: smartlead-inbox-manager
-description: Programmatic inbox management for Smartlead. Enable/disable warmup with correct ramp settings, set signatures in bulk, tag inboxes (active vs insurance), and pull inbox health dashboards. Use after creating a new batch of inboxes via /zapmail-domain-setup-public, or when managing an existing Smartlead account at scale. Triggers on "turn on warmup", "set signatures", "tag inboxes", "inbox health", "set up new inboxes".
+description: Programmatic inbox management for Smartlead. Enable/disable warmup with correct ramp settings, set signatures in bulk, tag inboxes (active vs insurance), and pull inbox health dashboards. Use after creating a new batch of inboxes via /scaledmail-domain-setup-public, or when managing an existing Smartlead account at scale. Triggers on "turn on warmup", "set signatures", "tag inboxes", "inbox health", "set up new inboxes".
 ---
 
 # Smartlead Inbox Manager
 
-Zapmail hands you hundreds of new inboxes. Smartlead needs them configured: warmup enabled with the right ramp, signatures set so emails don't look bare, tags applied so you know which are active vs insurance, and health monitored so dead inboxes get recycled.
+ScaledMail hands you hundreds of new inboxes. Smartlead needs them configured: warmup enabled with the right ramp, signatures set so emails don't look bare, tags applied so you know which are active vs insurance, and health monitored so dead inboxes get recycled.
 
 This skill does all of that via the Smartlead API.
 
@@ -164,7 +164,7 @@ Action items:
 
 ## Common workflows
 
-### Day 1 after Zapmail provisioning
+### Day 1 after ScaledMail provisioning
 
 ```bash
 # 1. Enable warmup on all newly created inboxes
@@ -234,7 +234,7 @@ npx tsx scripts/set-warmup.ts --mode=disable --tag=retired
 
 ## Related skills
 
-- `/zapmail-domain-setup-public` — creates the inboxes this skill configures
+- `/scaledmail-domain-setup-public` — creates the inboxes this skill configures
 - `/email-deliverability-audit` — when health dashboard shows problems
 - `/smartlead-api` — underlying API reference
 

@@ -108,14 +108,14 @@ Branch on Step 1 answers.
 Your next step is provisioning domains + inboxes. This takes ~2 weeks (because inboxes need
 to warm). Menu:
 
-[A] Start the domain + inbox setup NOW  → /zapmail-domain-setup-public then /smartlead-inbox-manager
+[A] Start the domain + inbox setup NOW  → /scaledmail-domain-setup-public then /smartlead-inbox-manager
 [B] Save the plan and come back after I have infra
 [C] I want to build my list FIRST (warning: risky — without warmed inboxes, you can't send safely)
 
 Pick A / B / C:
 ```
 
-If A: orient the user, then invoke `/zapmail-domain-setup-public`. After that skill completes, invoke `/smartlead-inbox-manager` for config. Remind the user to wait 2 weeks for warmup before launching.
+If A: orient the user, then invoke `/scaledmail-domain-setup-public`. After that skill completes, invoke `/smartlead-inbox-manager` for config. Remind the user to wait 2 weeks for warmup before launching.
 
 **If INFRASTRUCTURE READY (warmed inboxes + API keys present):**
 
@@ -142,7 +142,7 @@ Print the `campaign-plan.md` path. Offer `open <path>` if macOS.
 ## Safeguards
 
 - **Don't re-run `/icp-onboarding` blindly.** If a profile exists, ASK before overwriting.
-- **Don't auto-invoke `/zapmail-domain-setup-public`.** It spends real money. Always confirm first.
+- **Don't auto-invoke `/scaledmail-domain-setup-public`.** It spends real money. Always confirm first.
 - **Don't skip the 2-week warmup warning.** Make it loud if the user picks option [C] of the no-infra menu.
 
 ## Why this skill exists
@@ -162,7 +162,7 @@ Follow whichever branch your Step 6 menu selected. The skill hands you off clean
 - `/icp-onboarding` — invoked in step 2 (scrapes website + interviews)
 - `/lead-magnet-brainstorm` — invoked in step 3 (picks free offer)
 - `/campaign-strategy` — invoked in step 4 (15-25 campaign ideas)
-- `/zapmail-domain-setup-public` — offered in step 6 if no infra
+- `/scaledmail-domain-setup-public` — offered in step 6 if no infra
 - `/smartlead-inbox-manager` — offered in step 6 after domain setup
 - `/prospeo-full-export`, `/disco-like`, `/google-maps-list-builder`, `/blitz-list-builder`, `/competitor-engagers` — offered in step 6 if infra ready
 

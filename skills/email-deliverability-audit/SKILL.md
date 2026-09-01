@@ -71,7 +71,7 @@ npx tsx scripts/check-domain-auth.ts --from-csv=/tmp/audit/inboxes.csv --out=/tm
 For each unique domain, runs:
 ```bash
 dig TXT <domain> +short          # SPF
-dig TXT default._domainkey.<domain> +short    # DKIM (Zapmail uses "default")
+dig TXT default._domainkey.<domain> +short    # DKIM ("default" is the common convention — confirm your provider's actual selector in its dashboard)
 dig TXT _dmarc.<domain> +short   # DMARC
 ```
 
@@ -157,7 +157,7 @@ Produces a markdown report like:
 ### 6. Act on the action items
 
 Feed the action items into the right skills:
-- Missing DKIM / SPF → `/zapmail-domain-setup-public` to reconnect domains through Zapmail
+- Missing DKIM / SPF → `/scaledmail-domain-setup-public` to reconnect domains through ScaledMail
 - Blocked inboxes → `/smartlead-inbox-manager` to tag "retired" and rotate in insurance
 - Campaign schedule issues → Smartlead campaign schedule settings
 - Bad copy flagged → `/spam-word-checker` on the campaign copy
@@ -190,12 +190,12 @@ Feed the action items into the right skills:
 
 ## Common root causes
 
-- **SPF too lax** — `v=spf1 +all` whitelists everyone. Use `v=spf1 include:zapmail.com ~all` or similar.
-- **DKIM missing** — new domain, selector not published. Zapmail publishes at `default._domainkey` by default.
+- **SPF too lax** — `v=spf1 +all` whitelists everyone. Use `v=spf1 include:<your-provider's-spf-host> ~all` — get the exact include value from your provider's DNS setup page (e.g. ScaledMail publishes this automatically when you connect a domain; confirm the literal string in your dashboard).
+- **DKIM missing** — new domain, selector not published. Most white-glove providers (including ScaledMail) publish at `default._domainkey` by default, but confirm — some use a per-domain or per-account selector instead.
 - **DMARC alignment failure** — From-domain doesn't match SPF/DKIM domain. Usually a misconfigured reply-to or a 3rd-party sender.
 - **Too many inboxes per domain** — Gmail flags domains with >3-5 inboxes as suspicious. Keep it at 2/domain.
 - **Aggressive warmup ramp** — Jumping from 5 to 40/day in one week = flag. Ramp over 2-4 weeks.
-- **Shared sending IP with spam traffic** — Zapmail/most providers use shared pools. If someone else on your IP spammed, you suffer. Not much to do except wait for pool rotation.
+- **Shared sending IP with spam traffic** — most providers (ScaledMail included) use shared IP pools. If someone else on your pool spammed, you suffer. Not much to do except wait for pool rotation.
 
 ## What to do next
 
@@ -208,7 +208,7 @@ Feed the action items into the right skills:
 ## Related skills
 
 - `/smartlead-inbox-manager` — execute the action items (rotate, retag, warmup settings)
-- `/zapmail-domain-setup-public` — fix DNS/auth issues at the domain provider
+- `/scaledmail-domain-setup-public` — fix DNS/auth issues at the domain provider
 - `/spam-word-checker` — check copy for spam-triggering phrases
 - `/deliverability-test-public` — lighter-weight SMTP vs Gmail vs Outlook reply/bounce comparison
 
